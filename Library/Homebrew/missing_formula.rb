@@ -14,7 +14,7 @@ module Homebrew
           macOS provides gem as part of Ruby. To install a newer version:
             brew install ruby
         EOS
-        when "tex", "tex-live", "texlive", "latex" then <<~EOS
+        when "tex", "tex-live", "texlive", "mactex", "latex" then <<~EOS
           There are three versions of MacTeX.
 
           Full installation:
@@ -26,6 +26,15 @@ module Homebrew
           Minimal installation:
             brew cask install basictex
         EOS
+        when "asymptote"
+          if (path = which("asy", ENV["HOMEBREW_PATH"])) && path.to_s =~ %r{/tex}i then <<~EOS
+            Asymptote is already installed via MacTeX as #{path}
+          EOS
+          else <<~EOS
+            Asymptote is part of the MacTeX distribution:
+              brew cask install mactex    # or mactex-no-gui
+          EOS
+          end
         when "pip" then <<~EOS
           pip is part of the python formula:
             brew install python
